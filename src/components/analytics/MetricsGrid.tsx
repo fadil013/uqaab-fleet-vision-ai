@@ -2,8 +2,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, ScatterChart, Scatter, ComposedChart, Area, AreaChart } from 'recharts';
-import { ResponsiveHeatMap } from '@nivo/heatmap';
 import { ResponsiveTreeMap } from '@nivo/treemap';
 import { TrendingUp, Download, Calendar, AlertTriangle } from 'lucide-react';
 
@@ -150,6 +150,8 @@ const distanceVsDelayRegression = [
 ];
 
 export const MetricsGrid = () => {
+  const { toast } = useToast();
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-PK', {
       style: 'currency',
@@ -157,6 +159,13 @@ export const MetricsGrid = () => {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(amount);
+  };
+
+  const handleExportChart = (chartName: string) => {
+    toast({
+      title: "Chart Export Started",
+      description: `Exporting ${chartName} chart data...`,
+    });
   };
 
   const avgDelay = delayPatternsByDay.reduce((sum, day) => sum + day.avgDelay, 0) / delayPatternsByDay.length;
@@ -168,7 +177,7 @@ export const MetricsGrid = () => {
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             Daily Revenue Trend with Prediction
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={() => handleExportChart("Revenue Trend")}>
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>

@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { TrendingUp, TrendingDown, Truck, MapPin, DollarSign, Clock, Fuel, AlertTriangle } from "lucide-react";
 import { MetricsGrid } from "./analytics/MetricsGrid";
 import { RegionalAnalysis } from "./analytics/RegionalAnalysis";
@@ -11,6 +12,8 @@ import { PerformanceInsights } from "./analytics/PerformanceInsights";
 import { BusinessIntelligence } from "./analytics/BusinessIntelligence";
 
 export const Dashboard = () => {
+  const { toast } = useToast();
+
   // Mock data for executive summary
   const executiveMetrics = {
     totalShipments: 2847,
@@ -32,6 +35,21 @@ export const Dashboard = () => {
     }).format(amount);
   };
 
+  const handleExportReport = () => {
+    toast({
+      title: "Report Export Started",
+      description: "Your comprehensive analytics report is being generated. You'll receive it shortly.",
+    });
+    
+    // Simulate export process
+    setTimeout(() => {
+      toast({
+        title: "Export Completed",
+        description: "Your analytics report has been successfully generated and downloaded.",
+      });
+    }, 2000);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -50,7 +68,7 @@ export const Dashboard = () => {
               <Badge variant="secondary" className="px-4 py-2 text-sm">
                 Live Analytics
               </Badge>
-              <Button variant="secondary" size="sm">
+              <Button variant="secondary" size="sm" onClick={handleExportReport}>
                 Export Report
               </Button>
             </div>

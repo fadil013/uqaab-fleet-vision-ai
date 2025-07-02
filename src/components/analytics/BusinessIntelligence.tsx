@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { AlertTriangle, TrendingUp, Target, Lightbulb, DollarSign, Clock, Fuel, Users } from "lucide-react";
 
 const businessMetrics = {
@@ -96,6 +97,8 @@ const keyInsights = [
 ];
 
 export const BusinessIntelligence = () => {
+  const { toast } = useToast();
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-PK', {
       style: 'currency',
@@ -103,6 +106,21 @@ export const BusinessIntelligence = () => {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(amount);
+  };
+
+  const handleDownloadReport = () => {
+    toast({
+      title: "Business Report Download",
+      description: "Generating comprehensive business intelligence report...",
+    });
+    
+    // Simulate download process
+    setTimeout(() => {
+      toast({
+        title: "Download Complete",
+        description: "Your full business report has been downloaded successfully.",
+      });
+    }, 3000);
   };
 
   const getSeverityColor = (severity: string) => {
@@ -375,7 +393,7 @@ export const BusinessIntelligence = () => {
             </div>
           </div>
           <div className="flex justify-center mt-6">
-            <Button variant="secondary" size="lg">
+            <Button variant="secondary" size="lg" onClick={handleDownloadReport}>
               Download Full Business Report
             </Button>
           </div>
